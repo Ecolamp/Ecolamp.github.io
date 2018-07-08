@@ -45,14 +45,23 @@ https://docs.google.com/document/d/1IiGW4k9ATahRMywNqXrKiTDwStTmbR15Ba8o6wayJpU/
    b) Crie uma lista com os 10 principais relatórios que poderão ser obtidos por meio do sistema proposto!
  
 --> Histórico de pagamento.
+
 --> Relatório de custos da conta.
+
 --> Relatório de cômodos.
+
 --> Relatório de  eficiência de aparelhos de acordo com sua marca.
+
 --> Aparelhos registrados. 
+
 --> Consumo individual de um aparelho num determinado período de tempo. 
+
 --> Avaliação de marcas.
+
 --> Principal tensão elétrica entre os clientes.
+
 --> Relações entre ambiente, cômodo e aparelhos.
+
 --> Aparelhos que possuem função stand-by. 
 
  
