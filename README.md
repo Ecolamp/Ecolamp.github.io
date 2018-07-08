@@ -10,20 +10,12 @@ Pedro Caio Miranda de Araujo: pc_788@hotmail.com<br>
 ...
 
 ### 2.INTRODUÇÃO E MOTIVAÇAO<br>
-Este documento contém a especificação do projeto do banco de dados <nome do projeto> 
-<br>e motivação da escolha realizada. <br>
 
-Sabendo-se dos desafios enfrentados pelo cidadão para compreender os dados exibidos na conta de energia elétrica e suas dúvidas ao se perguntar se está pagando um preço justo ou não, a dupla correspondente ao 2º ano de Informática Integrado a Internet se viu instigada a desenvolver esse projeto com o objetivo de  transmitir o conhecimento e a verdade para o consumidor. O sistema de banco de dados denominado ECOlamp tem como motivação principal solucionar a complexidade das contas de energia elétrica, envolvendo desde a composição da tarifa até os impostos sobre esta, e propor opções econômicas para reduzir o gasto de energia elétrica, através do armazenamento de dados sobre o custo, rotina e reconhecimento do consumo dos equipamentos elétricos do ambiente em aplicação.
+	Sabendo-se dos desafios enfrentados pelo cidadão para compreender os dados exibidos na conta de energia elétrica e suas dúvidas ao se perguntar se está pagando um preço justo ou não, a dupla correspondente ao 2º ano de Informática Integrado a Internet se viu instigada a desenvolver esse projeto com o objetivo de  transmitir o conhecimento e a verdade para o consumidor. O sistema de banco de dados denominado ECOlamp tem como motivação principal solucionar a complexidade das contas de energia elétrica, envolvendo desde a composição da tarifa até os impostos sobre esta, e propor opções econômicas para reduzir o gasto de energia elétrica, através do armazenamento de dados sobre o custo, rotina e reconhecimento do consumo dos equipamentos elétricos do ambiente em aplicação.
 
  
 
 ### 3.MINI-MUNDO Novo<br>
-
-Descrever o mini-mundo! (Não deve ser maior do que 30 linhas) <br>
-Entrevista com o usuário e identificação dos requisitos.<br>
-Descrição textual das regras de negócio definidas como um  subconjunto do mundo real 
-cujos elementos são propriedades que desejamos incluir, processar, armazenar, 
-gerenciar, atualizar, e que descrevem a proposta/solução a ser desenvolvida.
 
 	O sistema constituinte do projeto Ecolamp apresentará os dados armazenados a seguir. Da Conta Cliente serão coletados nome, sobrenome, CPF, senha, e-mail, telefone de contato, bairro, estado e cidade, além disso também serão coletados dados como código fiscal de operação, código fiscal de identificação, número do medidor, número de instalação e a tensão elétrica. Assim como o cliente, o fornecedor de energia também irá apresentar bairro, estado e cidade, além de nome e CNPJ. O estado em que o fornecedor se encontra será o mesmo estado em que ele realizará os serviços. Esta conta será associada a um histórico de pagamentos que cobrará um custo envolvendo o valor, mês referente, data da leitura, data de pagamento e data de vencimento. O custo vai exigir vários tributos que possuirão tipo e valor, este também requer a bandeira correspondente ao custo da energia elétrica do período, possuindo também o seu tipo e valor.
 	A conta cliente registra um ambiente cliente pertencente a uma classificação, como residencial, industrial, comercial, entre outros. Este ambiente pertencerá a apenas uma conta cliente e deve apresentar um ou vários cômodos, que será específico daquele meio. O cômodo pode possuir vários ou nenhum aparelho, que possuem nome, modelo, potência, função stand-by, indicador de economia e a quantidade do aparelho determinado. 
