@@ -68,11 +68,7 @@ https://docs.google.com/document/d/1IiGW4k9ATahRMywNqXrKiTDwStTmbR15Ba8o6wayJpU/
 
 ### 5.MODELO CONCEITUAL<br>
   
-   FALTA COLOCAR
-       
-#### 5.1 Validação do Modelo Conceitual
-    [Grupo01]: [Nomes dos que participaram na avaliação]
-    [Grupo02]: [Nomes dos que participaram na avaliação]
+   https://github.com/Ecolamp/Ecolamp.github.io/blob/master/imagens/modeloconceitual_ecolamp.png
 
 #### 5.2 DECISÕES DE PROJETO
   
@@ -215,11 +211,11 @@ Mês referência: Campo onde se tem um mês referência, o mês atual sempre ser
    
 ### 6	MODELO LÓGICO<br>
        
-   AA
+   https://github.com/Ecolamp/Ecolamp.github.io/blob/master/imagens/modelologico_ecolamp.png
 
 ### 7	MODELO FÍSICO<br>
        
-   AA
+   https://github.com/Ecolamp/Ecolamp.github.io/blob/master/imagens/modelofisico_ecolamp.png
 
         
 
