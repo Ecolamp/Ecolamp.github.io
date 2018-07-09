@@ -1,0 +1,606 @@
+﻿-- MySQL Workbench Forward Engineering
+
+
+SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
+
+
+-- -----------------------------------------------------
+-- Schema mydb
+-- -----------------------------------------------------
+DROP SCHEMA IF EXISTS `mydb` ;
+
+
+-- -----------------------------------------------------
+-- Schema mydb
+-- -----------------------------------------------------
+CREATE SCHEMA IF NOT EXISTS `mydb` DEFAULT CHARACTER SET utf8 ;
+USE `mydb` ;
+
+
+-- -----------------------------------------------------
+-- Table `BAIRRO`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `BAIRRO` (
+  `IdCodBar` INT NOT NULL,
+  `NomBar` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`IdCodBar`))
+ENGINE = InnoDB;
+
+
+
+
+-- -----------------------------------------------------
+-- Table `CIDADE`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `CIDADE` (
+  `IdCodCid` INT NOT NULL,
+  `NomCid` VARCHAR(45) NOT NULL,
+  `IdCodBar` INT NOT NULL,
+  PRIMARY KEY (`IdCodCid`),
+  INDEX `fk_CIDADE_BAIRRO1_idx` (`IdCodBar` ASC),
+  CONSTRAINT `fk_CIDADE_BAIRRO1`
+    FOREIGN KEY (`IdCodBar`)
+    REFERENCES `BAIRRO` (`IdCodBar`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+
+
+-- -----------------------------------------------------
+-- Table `ESTADO`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `ESTADO` (
+  `IdCodEst` INT NOT NULL,
+  `NomEst` VARCHAR(45) NOT NULL,
+  `IdCodCid` INT NOT NULL,
+  PRIMARY KEY (`IdCodEst`),
+  INDEX `fk_ESTADO_CIDADE1_idx` (`IdCodCid` ASC),
+  CONSTRAINT `fk_ESTADO_CIDADE1`
+    FOREIGN KEY (`IdCodCid`)
+    REFERENCES `CIDADE` (`IdCodCid`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+
+
+-- -----------------------------------------------------
+-- Table `AMBIENTE_CLIENTE`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `AMBIENTE_CLIENTE` (
+  `IdAb` INT NOT NULL,
+  `DscClassificaçãoAb` VARCHAR(50) NOT NULL,
+  PRIMARY KEY (`IdAb`))
+ENGINE = InnoDB;
+
+
+
+
+-- -----------------------------------------------------
+-- Table `CONTA_CLIENTE`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `CONTA_CLIENTE` (
+  `IdCodCc` INT NOT NULL,
+  `IdCpfCc` VARCHAR(20) NOT NULL,
+  `IdCodfiscalopCc` VARCHAR(20) NOT NULL,
+  `NomCc` VARCHAR(20) NOT NULL,
+  `NomSobrenomeCc` VARCHAR(45) NOT NULL,
+  `DscEmailCc` VARCHAR(50) NOT NULL,
+  `DscTelefoneCc` VARCHAR(12) NOT NULL,
+  `DscSenhaCc` VARCHAR(30) NOT NULL,
+  `DscMedidorCc` VARCHAR(15) NOT NULL,
+  `NuminstalacaoCc` INT NOT NULL,
+  `ValTensaoeleCc` VARCHAR(8) NOT NULL,
+  `IdCodEst` INT NOT NULL,
+  `IdAb` INT NOT NULL,
+  INDEX `fk_CONTA_CLIENTE_ESTADO1_idx` (`IdCodEst` ASC),
+  INDEX `fk_CONTA_CLIENTE_AMBIENTE_CLIENTE1_idx` (`IdAb` ASC),
+  PRIMARY KEY (`IdCodCc`),
+  CONSTRAINT `fk_CONTA_CLIENTE_ESTADO1`
+    FOREIGN KEY (`IdCodEst`)
+    REFERENCES `ESTADO` (`IdCodEst`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_CONTA_CLIENTE_AMBIENTE_CLIENTE1`
+    FOREIGN KEY (`IdAb`)
+    REFERENCES `AMBIENTE_CLIENTE` (`IdAb`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB
+DEFAULT CHARACTER SET = cp850;
+
+
+
+
+-- -----------------------------------------------------
+-- Table `Fornecedor_de_energia`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `Fornecedor_de_energia` (
+  `NumCNPJFe` VARCHAR(20) NOT NULL,
+  `NomFe` VARCHAR(50) NOT NULL,
+  `IdCodEst` INT NOT NULL,
+  PRIMARY KEY (`NumCNPJFe`),
+  INDEX `fk_Fornecedor_de_energia_ESTADO1_idx` (`IdCodEst` ASC),
+  CONSTRAINT `fk_Fornecedor_de_energia_ESTADO1`
+    FOREIGN KEY (`IdCodEst`)
+    REFERENCES `ESTADO` (`IdCodEst`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+
+
+-- -----------------------------------------------------
+-- Table `MARCAS`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `MARCAS` (
+  `IdMarcas` INT NOT NULL,
+  `NomMarc` VARCHAR(45) NOT NULL,
+  `PctEficienciaMarc` DECIMAL(10,2) NOT NULL,
+  `PctAprovacaoMarc` DECIMAL(10,2) NOT NULL,
+  PRIMARY KEY (`IdMarcas`))
+ENGINE = InnoDB;
+
+
+
+
+-- -----------------------------------------------------
+-- Table `APARELHOS`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `APARELHOS` (
+  `IdApar` INT NOT NULL,
+  `NomeApar` VARCHAR(45) NOT NULL,
+  `NumQtddeApar` INT NOT NULL,
+  `DscModeloApar` VARCHAR(45) NOT NULL,
+  `ValPotenciaApar` DECIMAL(10,2) NOT NULL,
+  `DscFunção_stand_byApar` TINYINT(1) NOT NULL,
+  `IdECOApar` TINYINT(1) NOT NULL,
+  `IdMarcas` INT NOT NULL,
+  PRIMARY KEY (`IdApar`),
+  INDEX `fk_APARELHOS_MARCAS1_idx` (`IdMarcas` ASC),
+  CONSTRAINT `fk_APARELHOS_MARCAS1`
+    FOREIGN KEY (`IdMarcas`)
+    REFERENCES `MARCAS` (`IdMarcas`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+
+
+-- -----------------------------------------------------
+-- Table `COMODO`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `COMODO` (
+  `IdCom` INT NOT NULL,
+  `NomCom` VARCHAR(50) NOT NULL,
+  `NumConsumoporKw/hCom` DECIMAL(10,2) NOT NULL,
+  `IdAb` INT NOT NULL,
+  `IdApar` INT NULL,
+  INDEX `fk_COMODO_AMBIENTE_CLIENTE1_idx` (`IdAb` ASC),
+  INDEX `fk_COMODO_APARELHOS1_idx` (`IdApar` ASC),
+  PRIMARY KEY (`IdCom`),
+  CONSTRAINT `fk_COMODO_AMBIENTE_CLIENTE1`
+    FOREIGN KEY (`IdAb`)
+    REFERENCES `AMBIENTE_CLIENTE` (`IdAb`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_COMODO_APARELHOS1`
+    FOREIGN KEY (`IdApar`)
+    REFERENCES `APARELHOS` (`IdApar`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+
+
+-- -----------------------------------------------------
+-- Table `CONSUMO`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `CONSUMO` (
+  `IdConsu` INT NOT NULL,
+  `DatHorinicioConsu` DATETIME NOT NULL,
+  `DatHorfimConsu` DATETIME NOT NULL,
+  `NumKwhoraConsu` DECIMAL(10,2) NOT NULL,
+  `IdApar` INT NOT NULL,
+  PRIMARY KEY (`IdConsu`),
+  INDEX `fk_CONSUMO_APARELHOS1_idx` (`IdApar` ASC),
+  CONSTRAINT `fk_CONSUMO_APARELHOS1`
+    FOREIGN KEY (`IdApar`)
+    REFERENCES `APARELHOS` (`IdApar`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+
+
+-- -----------------------------------------------------
+-- Table `APARELHOS_DO_AMBIENTE`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `APARELHOS_DO_AMBIENTE` (
+  `IdAa` INT NOT NULL,
+  `DataInicioAa` DATE NOT NULL,
+  `DataFimAa` DATE NULL,
+  `IdApar` INT NOT NULL,
+  `IdAb` INT NOT NULL,
+  PRIMARY KEY (`IdAa`),
+  INDEX `fk_APARELHOS_DO_AMBIENTE_APARELHOS1_idx` (`IdApar` ASC),
+  INDEX `fk_APARELHOS_DO_AMBIENTE_AMBIENTE_CLIENTE1_idx` (`IdAb` ASC),
+  CONSTRAINT `fk_APARELHOS_DO_AMBIENTE_APARELHOS1`
+    FOREIGN KEY (`IdApar`)
+    REFERENCES `APARELHOS` (`IdApar`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_APARELHOS_DO_AMBIENTE_AMBIENTE_CLIENTE1`
+    FOREIGN KEY (`IdAb`)
+    REFERENCES `AMBIENTE_CLIENTE` (`IdAb`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+
+
+-- -----------------------------------------------------
+-- Table `BANDEIRA`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `BANDEIRA` (
+  `IdBand` INT NOT NULL,
+  `DscTipoBand` VARCHAR(20) NOT NULL,
+  `ValBand` DECIMAL(10,2) NOT NULL,
+  PRIMARY KEY (`IdBand`))
+ENGINE = InnoDB;
+
+
+
+
+-- -----------------------------------------------------
+-- Table `TRIBUTO`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `TRIBUTO` (
+  `IdTri` INT NOT NULL,
+  `DscTipoTri` VARCHAR(20) NOT NULL,
+  `ValTri` DECIMAL(10,2) NOT NULL,
+  PRIMARY KEY (`IdTri`))
+ENGINE = InnoDB;
+
+
+
+
+-- -----------------------------------------------------
+-- Table `HISTORICO_DE_PAGAMENTO`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `HISTORICO_DE_PAGAMENTO` (
+  `IdHp` INT NOT NULL,
+  `DatPagamentoHp` DATE NOT NULL,
+  `DatVencimentoHp` DATE NOT NULL,
+  `DataLeitura` DATE NOT NULL,
+  `ValHp` DECIMAL(10,2) NOT NULL,
+  `MesReferenteHp` INT NOT NULL,
+  `IdBand` INT NOT NULL,
+  `IdTri` INT NOT NULL,
+  `IdCodCc` INT NOT NULL,
+  PRIMARY KEY (`IdHp`),
+  INDEX `fk_HISTORICO_DE_PAGAMENTO_BANDEIRA1_idx` (`IdBand` ASC),
+  INDEX `fk_HISTORICO_DE_PAGAMENTO_TRIBUTO1_idx` (`IdTri` ASC),
+  INDEX `fk_HISTORICO_DE_PAGAMENTO_CONTA_CLIENTE1_idx` (`IdCodCc` ASC),
+  CONSTRAINT `fk_HISTORICO_DE_PAGAMENTO_BANDEIRA1`
+    FOREIGN KEY (`IdBand`)
+    REFERENCES `BANDEIRA` (`IdBand`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_HISTORICO_DE_PAGAMENTO_TRIBUTO1`
+    FOREIGN KEY (`IdTri`)
+    REFERENCES `TRIBUTO` (`IdTri`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `fk_HISTORICO_DE_PAGAMENTO_CONTA_CLIENTE1`
+    FOREIGN KEY (`IdCodCc`)
+    REFERENCES `CONTA_CLIENTE` (`IdCodCc`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
+
+
+
+
+-- -----------------------------------------------------
+-- Table `MULTA`
+-- -----------------------------------------------------
+CREATE TABLE IF NOT EXISTS `MULTA` (
+  `IdMul` INT NOT NULL,
+  `DatMesRefMul` DATE NOT NULL,
+  `ValMultadMul` DECIMAL(10,2) NOT NULL,
+  `ValMultamMul` DECIMAL(10,2) NOT NULL,
+  PRIMARY KEY (`IdMul`))
+ENGINE = InnoDB;
+
+
+
+
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
+
+
+-- -----------------------------------------------------
+-- Data for table `BAIRRO`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `mydb`;
+INSERT INTO `BAIRRO` (`IdCodBar`, `NomBar`) VALUES (01, 'Jabour');
+INSERT INTO `BAIRRO` (`IdCodBar`, `NomBar`) VALUES (02, 'Copacabana');
+INSERT INTO `BAIRRO` (`IdCodBar`, `NomBar`) VALUES (03, 'Alvorada');
+INSERT INTO `BAIRRO` (`IdCodBar`, `NomBar`) VALUES (04, 'Vila Olímpia ');
+INSERT INTO `BAIRRO` (`IdCodBar`, `NomBar`) VALUES (05, 'Santo Antônio');
+INSERT INTO `BAIRRO` (`IdCodBar`, `NomBar`) VALUES (06, 'Muriqui');
+INSERT INTO `BAIRRO` (`IdCodBar`, `NomBar`) VALUES (07, 'Jardim Goiás');
+INSERT INTO `BAIRRO` (`IdCodBar`, `NomBar`) VALUES (08, 'Ouro Preto');
+INSERT INTO `BAIRRO` (`IdCodBar`, `NomBar`) VALUES (09, 'Centro');
+INSERT INTO `BAIRRO` (`IdCodBar`, `NomBar`) VALUES (10, 'Alphaville');
+
+
+COMMIT;
+
+
+
+
+-- -----------------------------------------------------
+-- Data for table `CIDADE`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `mydb`;
+INSERT INTO `CIDADE` (`IdCodCid`, `NomCid`, `IdCodBar`) VALUES (1, 'Vitória', 01);
+INSERT INTO `CIDADE` (`IdCodCid`, `NomCid`, `IdCodBar`) VALUES (2, 'Rio de Janeiro', 02);
+INSERT INTO `CIDADE` (`IdCodCid`, `NomCid`, `IdCodBar`) VALUES (3, 'Vila Velha', 03);
+INSERT INTO `CIDADE` (`IdCodCid`, `NomCid`, `IdCodBar`) VALUES (4, 'São Paulo', 04);
+INSERT INTO `CIDADE` (`IdCodCid`, `NomCid`, `IdCodBar`) VALUES (5, 'Mariana', 05);
+INSERT INTO `CIDADE` (`IdCodCid`, `NomCid`, `IdCodBar`) VALUES (6, 'Niterói', 06);
+INSERT INTO `CIDADE` (`IdCodCid`, `NomCid`, `IdCodBar`) VALUES (7, 'Goiás', 07);
+INSERT INTO `CIDADE` (`IdCodCid`, `NomCid`, `IdCodBar`) VALUES (8, 'Belo Horizonte', 08);
+INSERT INTO `CIDADE` (`IdCodCid`, `NomCid`, `IdCodBar`) VALUES (9, 'Salvador', 09);
+INSERT INTO `CIDADE` (`IdCodCid`, `NomCid`, `IdCodBar`) VALUES (10, 'Campinas', 10);
+
+
+COMMIT;
+
+
+
+
+-- -----------------------------------------------------
+-- Data for table `ESTADO`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `mydb`;
+INSERT INTO `ESTADO` (`IdCodEst`, `NomEst`, `IdCodCid`) VALUES (01, 'ES', 1);
+INSERT INTO `ESTADO` (`IdCodEst`, `NomEst`, `IdCodCid`) VALUES (02, 'RS', 3);
+INSERT INTO `ESTADO` (`IdCodEst`, `NomEst`, `IdCodCid`) VALUES (03, 'RJ', 2);
+INSERT INTO `ESTADO` (`IdCodEst`, `NomEst`, `IdCodCid`) VALUES (04, 'SP', 4);
+INSERT INTO `ESTADO` (`IdCodEst`, `NomEst`, `IdCodCid`) VALUES (05, 'MG', 5);
+INSERT INTO `ESTADO` (`IdCodEst`, `NomEst`, `IdCodCid`) VALUES (06, 'GO', 6);
+INSERT INTO `ESTADO` (`IdCodEst`, `NomEst`, `IdCodCid`) VALUES (07, 'BA', 9);
+INSERT INTO `ESTADO` (`IdCodEst`, `NomEst`, `IdCodCid`) VALUES (08, 'PE', 7);
+INSERT INTO `ESTADO` (`IdCodEst`, `NomEst`, `IdCodCid`) VALUES (09, 'AL', 8);
+INSERT INTO `ESTADO` (`IdCodEst`, `NomEst`, `IdCodCid`) VALUES (10, 'DF', 10);
+
+
+COMMIT;
+
+
+
+
+-- -----------------------------------------------------
+-- Data for table `AMBIENTE_CLIENTE`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `mydb`;
+INSERT INTO `AMBIENTE_CLIENTE` (`IdAb`, `DscClassificaçãoAb`) VALUES (1, 'Residencial');
+INSERT INTO `AMBIENTE_CLIENTE` (`IdAb`, `DscClassificaçãoAb`) VALUES (2, 'Industrial');
+INSERT INTO `AMBIENTE_CLIENTE` (`IdAb`, `DscClassificaçãoAb`) VALUES (3, 'Comercial');
+
+
+COMMIT;
+
+
+
+
+-- -----------------------------------------------------
+-- Data for table `CONTA_CLIENTE`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `mydb`;
+INSERT INTO `CONTA_CLIENTE` (`IdCodCc`, `IdCpfCc`, `IdCodfiscalopCc`, `NomCc`, `NomSobrenomeCc`, `DscEmailCc`, `DscTelefoneCc`, `DscSenhaCc`, `DscMedidorCc`, `NuminstalacaoCc`, `ValTensaoeleCc`, `IdCodEst`, `IdAb`) VALUES (401238441, '40028922000', '5258', 'Maria', 'Tavares', 'gabitavares2002@hotmail.com', '99785-7566', 'naovaiterhexa2018', 'ECG96001', 117843, '220/127V', 01, 1);
+INSERT INTO `CONTA_CLIENTE` (`IdCodCc`, `IdCpfCc`, `IdCodfiscalopCc`, `NomCc`, `NomSobrenomeCc`, `DscEmailCc`, `DscTelefoneCc`, `DscSenhaCc`, `DscMedidorCc`, `NuminstalacaoCc`, `ValTensaoeleCc`, `IdCodEst`, `IdAb`) VALUES (457695682, '03413547243', '3566', 'Clara', 'Martins', 'claritaqmt@gmail.com', '99818-4134', 'wesd5rty', 'ECG15136', 457456, '220/127V', 02, 2);
+INSERT INTO `CONTA_CLIENTE` (`IdCodCc`, `IdCpfCc`, `IdCodfiscalopCc`, `NomCc`, `NomSobrenomeCc`, `DscEmailCc`, `DscTelefoneCc`, `DscSenhaCc`, `DscMedidorCc`, `NuminstalacaoCc`, `ValTensaoeleCc`, `IdCodEst`, `IdAb`) VALUES (234034730, '33236333000', '5673', 'Bella', 'Torrez', 'bel_torrez@gmail.com', '99678-1235', 'LoLjxcadc!', 'EDP29682', 789671, '230/115V', 03, 2);
+INSERT INTO `CONTA_CLIENTE` (`IdCodCc`, `IdCpfCc`, `IdCodfiscalopCc`, `NomCc`, `NomSobrenomeCc`, `DscEmailCc`, `DscTelefoneCc`, `DscSenhaCc`, `DscMedidorCc`, `NuminstalacaoCc`, `ValTensaoeleCc`, `IdCodEst`, `IdAb`) VALUES (135466787, '18337247291', '6773', 'Pedro', 'Miranda', 'pc778@gmail.com', '99871-1243', 'aylc22', 'EDP50962', 136138, '220/127V', 01, 1);
+INSERT INTO `CONTA_CLIENTE` (`IdCodCc`, `IdCpfCc`, `IdCodfiscalopCc`, `NomCc`, `NomSobrenomeCc`, `DscEmailCc`, `DscTelefoneCc`, `DscSenhaCc`, `DscMedidorCc`, `NuminstalacaoCc`, `ValTensaoeleCc`, `IdCodEst`, `IdAb`) VALUES (123456789, '77112834624', '6782', 'Rose', 'Quartzo', 'roseqtz_su@hotmail.com', '9441-2351', 'sugem123', 'FFP18924', 127245, '380/220V', 04, 3);
+
+
+COMMIT;
+
+
+
+
+-- -----------------------------------------------------
+-- Data for table `Fornecedor_de_energia`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `mydb`;
+INSERT INTO `Fornecedor_de_energia` (`NumCNPJFe`, `NomFe`, `IdCodEst`) VALUES ('28.152.650/0001', 'Escelsa', 01);
+INSERT INTO `Fornecedor_de_energia` (`NumCNPJFe`, `NomFe`, `IdCodEst`) VALUES ('34.673.687/0002', 'ANEE', 02);
+INSERT INTO `Fornecedor_de_energia` (`NumCNPJFe`, `NomFe`, `IdCodEst`) VALUES ('46.765.489/0003', 'Luzboa', 01);
+INSERT INTO `Fornecedor_de_energia` (`NumCNPJFe`, `NomFe`, `IdCodEst`) VALUES ('12.045.456/0004', 'HEN', 04);
+INSERT INTO `Fornecedor_de_energia` (`NumCNPJFe`, `NomFe`, `IdCodEst`) VALUES ('56.153.113/0005', 'Endesa', 05);
+
+
+COMMIT;
+
+
+
+
+-- -----------------------------------------------------
+-- Data for table `MARCAS`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `mydb`;
+INSERT INTO `MARCAS` (`IdMarcas`, `NomMarc`, `PctEficienciaMarc`, `PctAprovacaoMarc`) VALUES (1, 'LG', 66, 54);
+INSERT INTO `MARCAS` (`IdMarcas`, `NomMarc`, `PctEficienciaMarc`, `PctAprovacaoMarc`) VALUES (2, 'Brastemp', 23, 76);
+INSERT INTO `MARCAS` (`IdMarcas`, `NomMarc`, `PctEficienciaMarc`, `PctAprovacaoMarc`) VALUES (3, 'Electrolux', 27, 25);
+INSERT INTO `MARCAS` (`IdMarcas`, `NomMarc`, `PctEficienciaMarc`, `PctAprovacaoMarc`) VALUES (4, 'Samsung', 47, 100);
+INSERT INTO `MARCAS` (`IdMarcas`, `NomMarc`, `PctEficienciaMarc`, `PctAprovacaoMarc`) VALUES (5, 'Sony', 27, 51);
+INSERT INTO `MARCAS` (`IdMarcas`, `NomMarc`, `PctEficienciaMarc`, `PctAprovacaoMarc`) VALUES (6, 'Consul', 88, 81);
+INSERT INTO `MARCAS` (`IdMarcas`, `NomMarc`, `PctEficienciaMarc`, `PctAprovacaoMarc`) VALUES (7, 'Philips', 57, 75);
+INSERT INTO `MARCAS` (`IdMarcas`, `NomMarc`, `PctEficienciaMarc`, `PctAprovacaoMarc`) VALUES (8, 'Dell', 61, 83);
+INSERT INTO `MARCAS` (`IdMarcas`, `NomMarc`, `PctEficienciaMarc`, `PctAprovacaoMarc`) VALUES (9, 'Apple', 100, 100);
+
+
+COMMIT;
+
+
+
+
+-- -----------------------------------------------------
+-- Data for table `APARELHOS`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `mydb`;
+INSERT INTO `APARELHOS` (`IdApar`, `NomeApar`, `NumQtddeApar`, `DscModeloApar`, `ValPotenciaApar`, `DscFunção_stand_byApar`, `IdECOApar`, `IdMarcas`) VALUES (1, 'Smart TV', 3, 'LCD 42\"', 120, True, False, 1);
+INSERT INTO `APARELHOS` (`IdApar`, `NomeApar`, `NumQtddeApar`, `DscModeloApar`, `ValPotenciaApar`, `DscFunção_stand_byApar`, `IdECOApar`, `IdMarcas`) VALUES (2, 'Geladeira', 5, 'Side by Side', 120, True, True, 2);
+INSERT INTO `APARELHOS` (`IdApar`, `NomeApar`, `NumQtddeApar`, `DscModeloApar`, `ValPotenciaApar`, `DscFunção_stand_byApar`, `IdECOApar`, `IdMarcas`) VALUES (3, 'Lava-roupa', 4, 'Turbo', 95, False, False, 3);
+INSERT INTO `APARELHOS` (`IdApar`, `NomeApar`, `NumQtddeApar`, `DscModeloApar`, `ValPotenciaApar`, `DscFunção_stand_byApar`, `IdECOApar`, `IdMarcas`) VALUES (4, 'Notebook', 3, 'Inspiron', 100, False, True, 4);
+INSERT INTO `APARELHOS` (`IdApar`, `NomeApar`, `NumQtddeApar`, `DscModeloApar`, `ValPotenciaApar`, `DscFunção_stand_byApar`, `IdECOApar`, `IdMarcas`) VALUES (5, 'Smart TV', 2, 'LCD 45\" 4K HD', 154, True, True, 5);
+INSERT INTO `APARELHOS` (`IdApar`, `NomeApar`, `NumQtddeApar`, `DscModeloApar`, `ValPotenciaApar`, `DscFunção_stand_byApar`, `IdECOApar`, `IdMarcas`) VALUES (6, 'Fogão', 4, 'Titanium', 76, False, False, 6);
+INSERT INTO `APARELHOS` (`IdApar`, `NomeApar`, `NumQtddeApar`, `DscModeloApar`, `ValPotenciaApar`, `DscFunção_stand_byApar`, `IdECOApar`, `IdMarcas`) VALUES (7, 'Ventilador', 6, 'Nitro', 34, False, False, 7);
+INSERT INTO `APARELHOS` (`IdApar`, `NomeApar`, `NumQtddeApar`, `DscModeloApar`, `ValPotenciaApar`, `DscFunção_stand_byApar`, `IdECOApar`, `IdMarcas`) VALUES (8, 'Computador', 8, 'MacBook', 166, True, True, 8);
+
+
+COMMIT;
+
+
+
+
+-- -----------------------------------------------------
+-- Data for table `COMODO`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `mydb`;
+INSERT INTO `COMODO` (`IdCom`, `NomCom`, `NumConsumoporKw/hCom`, `IdAb`, `IdApar`) VALUES (1, 'Quarto Q1', 83.55, 1, 1);
+INSERT INTO `COMODO` (`IdCom`, `NomCom`, `NumConsumoporKw/hCom`, `IdAb`, `IdApar`) VALUES (2, 'Escritório ES4', 122.23, 2, 2);
+INSERT INTO `COMODO` (`IdCom`, `NomCom`, `NumConsumoporKw/hCom`, `IdAb`, `IdApar`) VALUES (3, 'Sala SE2', 76.57, 3, 3);
+INSERT INTO `COMODO` (`IdCom`, `NomCom`, `NumConsumoporKw/hCom`, `IdAb`, `IdApar`) VALUES (4, 'Cozinha C3', 36.57, 1, 4);
+
+
+COMMIT;
+
+
+
+
+-- -----------------------------------------------------
+-- Data for table `CONSUMO`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `mydb`;
+INSERT INTO `CONSUMO` (`IdConsu`, `DatHorinicioConsu`, `DatHorfimConsu`, `NumKwhoraConsu`, `IdApar`) VALUES (1, '2017/01/01 08:00', '2017/01/01 17:00', 12.84, 1);
+INSERT INTO `CONSUMO` (`IdConsu`, `DatHorinicioConsu`, `DatHorfimConsu`, `NumKwhoraConsu`, `IdApar`) VALUES (2, '2017/02/02 10:00', '2017/02/02  00:00', 56, 2);
+INSERT INTO `CONSUMO` (`IdConsu`, `DatHorinicioConsu`, `DatHorfimConsu`, `NumKwhoraConsu`, `IdApar`) VALUES (3, '2018/01/01 11:00', '2018/01/01  12:00', 11, 3);
+INSERT INTO `CONSUMO` (`IdConsu`, `DatHorinicioConsu`, `DatHorfimConsu`, `NumKwhoraConsu`, `IdApar`) VALUES (4, '2018/02/02 14:00', '2018/02/02 21:00', 24, 4);
+INSERT INTO `CONSUMO` (`IdConsu`, `DatHorinicioConsu`, `DatHorfimConsu`, `NumKwhoraConsu`, `IdApar`) VALUES (5, '2016/01/01 16:00', '2016/01/01 20:00', 18.67, 5);
+INSERT INTO `CONSUMO` (`IdConsu`, `DatHorinicioConsu`, `DatHorfimConsu`, `NumKwhoraConsu`, `IdApar`) VALUES (6, '2016/02/02 12:30', '2016/02/02 18:00', 23.01, 6);
+INSERT INTO `CONSUMO` (`IdConsu`, `DatHorinicioConsu`, `DatHorfimConsu`, `NumKwhoraConsu`, `IdApar`) VALUES (7, '2015/01/01 20:00', '2015/01/02 16:00', 9, 7);
+INSERT INTO `CONSUMO` (`IdConsu`, `DatHorinicioConsu`, `DatHorfimConsu`, `NumKwhoraConsu`, `IdApar`) VALUES (8, '2015/02/02 21:00', '2015/02/02  22:00', 15.8, 8);
+
+
+COMMIT;
+
+
+
+
+-- -----------------------------------------------------
+-- Data for table `APARELHOS_DO_AMBIENTE`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `mydb`;
+INSERT INTO `APARELHOS_DO_AMBIENTE` (`IdAa`, `DataInicioAa`, `DataFimAa`, `IdApar`, `IdAb`) VALUES (1, '2018/04/18', NULL, 1, 1);
+INSERT INTO `APARELHOS_DO_AMBIENTE` (`IdAa`, `DataInicioAa`, `DataFimAa`, `IdApar`, `IdAb`) VALUES (2, '2017/09/20', '2018/11/29', 2, 2);
+INSERT INTO `APARELHOS_DO_AMBIENTE` (`IdAa`, `DataInicioAa`, `DataFimAa`, `IdApar`, `IdAb`) VALUES (3, '2015/07/15', '2018/07/08', 3, 3);
+INSERT INTO `APARELHOS_DO_AMBIENTE` (`IdAa`, `DataInicioAa`, `DataFimAa`, `IdApar`, `IdAb`) VALUES (4, '2013/06/16', '2016/07/23', 4, 2);
+INSERT INTO `APARELHOS_DO_AMBIENTE` (`IdAa`, `DataInicioAa`, `DataFimAa`, `IdApar`, `IdAb`) VALUES (5, '2015/01/23', NULL, 5, 1);
+
+
+COMMIT;
+
+
+
+
+-- -----------------------------------------------------
+-- Data for table `BANDEIRA`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `mydb`;
+INSERT INTO `BANDEIRA` (`IdBand`, `DscTipoBand`, `ValBand`) VALUES (1, 'Verde', 0.00);
+INSERT INTO `BANDEIRA` (`IdBand`, `DscTipoBand`, `ValBand`) VALUES (2, 'Amarela', 1.50);
+INSERT INTO `BANDEIRA` (`IdBand`, `DscTipoBand`, `ValBand`) VALUES (3, 'Vermelha', 3.00);
+
+
+COMMIT;
+
+
+
+
+-- -----------------------------------------------------
+-- Data for table `TRIBUTO`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `mydb`;
+INSERT INTO `TRIBUTO` (`IdTri`, `DscTipoTri`, `ValTri`) VALUES (1, 'PIS', 3.28);
+INSERT INTO `TRIBUTO` (`IdTri`, `DscTipoTri`, `ValTri`) VALUES (2, 'ICMS', 35.27);
+INSERT INTO `TRIBUTO` (`IdTri`, `DscTipoTri`, `ValTri`) VALUES (3, 'COFINS', 0.98);
+
+
+COMMIT;
+
+
+
+
+-- -----------------------------------------------------
+-- Data for table `HISTORICO_DE_PAGAMENTO`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `mydb`;
+INSERT INTO `HISTORICO_DE_PAGAMENTO` (`IdHp`, `DatPagamentoHp`, `DatVencimentoHp`, `DataLeitura`, `ValHp`, `MesReferenteHp`, `IdBand`, `IdTri`, `IdCodCc`) VALUES (1, '2018/05/18', '2018/05/18', '2018/04/18', 151.53, 4, 1, 2, 401238441);
+INSERT INTO `HISTORICO_DE_PAGAMENTO` (`IdHp`, `DatPagamentoHp`, `DatVencimentoHp`, `DataLeitura`, `ValHp`, `MesReferenteHp`, `IdBand`, `IdTri`, `IdCodCc`) VALUES (2, '2018/01/31', '2018/02/15', '2018/01/15', 255.34, 1, 2, 1, 457695682);
+INSERT INTO `HISTORICO_DE_PAGAMENTO` (`IdHp`, `DatPagamentoHp`, `DatVencimentoHp`, `DataLeitura`, `ValHp`, `MesReferenteHp`, `IdBand`, `IdTri`, `IdCodCc`) VALUES (3, '2018/04/16', '2018/04/19', '2018/03/19', 102.21, 3, 1, 3, 234034730);
+INSERT INTO `HISTORICO_DE_PAGAMENTO` (`IdHp`, `DatPagamentoHp`, `DatVencimentoHp`, `DataLeitura`, `ValHp`, `MesReferenteHp`, `IdBand`, `IdTri`, `IdCodCc`) VALUES (4, '2017/10/29', '2017/10/02', '2017/09/02', 94.93, 9, 3, 2, 135466787);
+INSERT INTO `HISTORICO_DE_PAGAMENTO` (`IdHp`, `DatPagamentoHp`, `DatVencimentoHp`, `DataLeitura`, `ValHp`, `MesReferenteHp`, `IdBand`, `IdTri`, `IdCodCc`) VALUES (5, '2018/12/30', '2018/12/29', '2018/11/29', 122.90, 11, 2, 1, 123456789);
+
+
+COMMIT;
+
+
+
+
+-- -----------------------------------------------------
+-- Data for table `MULTA`
+-- -----------------------------------------------------
+START TRANSACTION;
+USE `mydb`;
+INSERT INTO `MULTA` (`IdMul`, `DatMesRefMul`, `ValMultadMul`, `ValMultamMul`) VALUES (1, '2018/04/19', 2.16, 8.24);
+INSERT INTO `MULTA` (`IdMul`, `DatMesRefMul`, `ValMultadMul`, `ValMultamMul`) VALUES (2, '2014/12/29', 0.00, 0.00);
+INSERT INTO `MULTA` (`IdMul`, `DatMesRefMul`, `ValMultadMul`, `ValMultamMul`) VALUES (3, '2018/05/18', 1.57, 5.98);
+INSERT INTO `MULTA` (`IdMul`, `DatMesRefMul`, `ValMultadMul`, `ValMultamMul`) VALUES (4, '2017/10/02', 3.74, 9.14);
+INSERT INTO `MULTA` (`IdMul`, `DatMesRefMul`, `ValMultadMul`, `ValMultamMul`) VALUES (5, '2016/02/13', 0.94, 2.12);
+INSERT INTO `MULTA` (`IdMul`, `DatMesRefMul`, `ValMultadMul`, `ValMultamMul`) VALUES (6, '2015/07/09', 0.30, 1.99);
+INSERT INTO `MULTA` (`IdMul`, `DatMesRefMul`, `ValMultadMul`, `ValMultamMul`) VALUES (7, '2018/07/10', 0.00, 0.00);
+INSERT INTO `MULTA` (`IdMul`, `DatMesRefMul`, `ValMultadMul`, `ValMultamMul`) VALUES (8, '2018/03/09', 1.85, 7.35);
+INSERT INTO `MULTA` (`IdMul`, `DatMesRefMul`, `ValMultadMul`, `ValMultamMul`) VALUES (9, '2015/06/23', 0.00, 0.00);
+
+
+COMMIT;
