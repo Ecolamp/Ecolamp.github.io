@@ -101,7 +101,7 @@ j) Campo Função Stand-by: existe para verificar se um aparelho possui ou não 
 
 #### 5.3 DESCRIÇÃO DOS DADOS 
    
- BAIRRO: Tabela que armazena as informações relativas à bairro.
+BAIRRO: Tabela que armazena as informações relativas à bairro.
 
 CIDADE: Tabela que armazena as informações relativas à cidade.
 
@@ -115,9 +115,9 @@ CNPJ: Campo que armazena o cadastro nacional da pessoa jurídica.
 
 CONTA CLIENTE: Tabela que armazena as informações do cliente.
 
-Nome: Campo que armazena o nome do cliente
+Nome: Campo que armazena o nome do cliente.
 
-Sobrenome: Campo que armazena o sobrenome do cliente
+Sobrenome: Campo que armazena o sobrenome do cliente.
 
 CPF: Campo que armazena o cadastro de pessoa física do cliente.
 
@@ -131,21 +131,21 @@ Código fiscal de operação: Campo que corresponde a um atributo único, pois p
 
 Código de identificação: Campo que corresponde a um atributo único, pois para cada conta cliente existirá um código de identificação diferente.
 
-Número medidor: Campo onde você 
+Número medidor: Campo que corresponde a leitura no equipamento em relação ao consumo, este é a diferença entre a leitura atual e a última realizada, multiplicado pela constante do medidor. Tanto a última leitura como a constante estão disponíveis em sua conta de energia.
 
-Tensão elétrica: Campo onde é informada a tensão elétrica da sua casa.
+Tensão elétrica: Campo onde é informada a tensão elétrica da região do cliente.
 
 AMBIENTE CLIENTE: Tabela onde se incorpora os ambientes da sua casa.
 
-Classificação: Onde se classifica o tipo de cômodo 
+Classificação: Classifica o ambiente que receberá os cômodos como residencial, industrial ou comercial.
 
 CÔMODO: Tabela onde se gerencia o consumo de energia de um determinado cômodo. 
 
-Nome: Campo que armazena os nomes de cada como cadastrado pelo cliente.
+Nome: Campo que armazena os nomes de cada cômodo cadastrado pelo cliente.
 
 Consumo de kw/h: Campo onde se armazena o consumo total de cada cômodo. 
 
-APARELHOS DO AMBIENTE: Tabela onde se adiciona aparelhos a um cômodo.
+APARELHOS DO AMBIENTE: Tabela onde se adiciona aparelhos a um ambiente.
 
 Data início: Data de instalação do aparelho em seu respectivo cômodo. 
 
@@ -153,231 +153,76 @@ Data fim:  Data de retirada do aparelho em seu respectivo cômodo.
 
 APARELHOS: Tabela de identificação de aparelhos. 
 
-Indicador economia: Se o aparelho possui a função de economia de energia. 
+Indicador economia: Indica se o aparelho possui a função de economia de energia. 
 
-Função Stand-by: Se o aparelho possui a função Stand-By
+Função Stand-by: Indica se o aparelho possui a função Stand-By.
 
-Potência: Campo onde se armazena a potência do aparelho
+Potência: Campo onde se armazena a potência do aparelho.
 
-Modelo: Campo onde identifica o modelo do aparelho 
+Modelo: Campo onde identifica o modelo do aparelho.
 
-Nome: Campo onde classifica o nome do aparelho.
+Nome: Campo onde se nomeia o aparelho.
 
-Quantidade de aparelhos: Campo onde se adiciona o quantidade de aparelhos de um mesmo tipo.
+Quantidade de aparelhos: Campo onde se adiciona a quantidade de aparelhos de um mesmo tipo.
 
-MARCAS: Tabela 
+MARCAS: Tabela de identificação e qualificação de marcas.
 
-Aprovação:
+Aprovação: Campo onde se classifica a marca como boa ou não baseada nas avaliações dos clientes.
 
-Eficiência:
+Eficiência: Campo onde se classifica a marca como eficiente ou não baseado em pesquisas.
 
-CONSUMO: 
+CONSUMO: Tabela que registra o consumo dos aparelhos.
 
-Data hora início:
+Data hora início: Campo onde se adiciona a data e hora de início de uso do aparelho.
 
-Data hora fim:
+Data hora fim: Campo onde se adiciona a data e hora de fim do uso do aparelho.
 
-Kw gastos:
+Kw gastos: Campo que possui a quantidade de kw gastos no total por aparelho.
 
-HISTÓRICO DE PAGAMENTO:
+HISTÓRICO DE PAGAMENTO: Tabela onde se tem todo o histórico de pagamento de contas.
 
-Data de pagamento:
+Data de pagamento: Campo onde se tem a data de quando foi efetuado o pagamento.
 
-Data de vencimento:
+Data de vencimento: Campo onde se possui a data de vencimento da conta.
 
-Data leitura: 
+Data leitura: Campo onde se tem a data de leitura da conta de um respectivo mês. 
 
-Valor: 
+Valor: Campo onde se encontra o valor total a ser pago em um respectivo mês. 
 
-Mês referência: 
+Mês referência: Campo onde se tem um mês referência, o mês atual sempre será atualizado e os posteriores registrados.
 
-TRIBUTO:
+TRIBUTO: Tabela que armazena valor do tributo e seu tipo.
 
-Tipo:
+Tipo: Campo onde identifica qual é o tributo aplicado.
 
-Valor:
+Valor: Campo onde identifica qual é o valor aplicado.
 
-BANDEIRA:
+BANDEIRA: Tabela que armazena o tipo da bandeira e o seu valor.
 
-Tipo:
+Tipo: Campo onde se tem o grau da bandeira: verde (sem acréscimo), amarela (R$1,50 de acréscimo) e vermelha (R$3,00 de acréscimo).
 
-Valor:
+Valor: Campo onde se tem o valor de cada bandeira. 
 
-MULTA:
+MULTA: Tabela que armazena as multas aplicadas na conta.
 
-Multa diária: 
+Multa diária: Campo onde é visto as multas de atrasos diários.
 
-Multa mensal: 
+Multa mensal: Campo onde é visto as multas de atrasos mensais.
 
-Mês referência: 
+Mês referência: Campo onde se tem um mês referência, o mês atual sempre será atualizado e os posteriores registrados.
+
 
    
 ### 6	MODELO LÓGICO<br>
        
-   https://github.com/Ecolamp/Ecolamp.github.io/blob/master/imagens/ecolamp_logico.png
+   AA
 
 ### 7	MODELO FÍSICO<br>
        
-   https://github.com/Ecolamp/Ecolamp.github.io/blob/master/imagens/ecolamp_fisico.png
+   AA
 
         
-### 8	INSERT APLICADO NAS TABELAS DO BANCO DE DADOS<br>
-#### 8.1 DETALHAMENTO DAS INFORMAÇÕES
-        a) inclusão das instruções de inserção dos dados nas tabelas criadas pelo script de modelo físic
-        b) formato .SQL
 
-#### 8.2 INCLUSÃO DO SCRIPT PARA CRIAÇÃO DE TABELA E INSERÇÃO DOS DADOS
-        a) Junção dos scripts anteriores em um único script 
-        (create para tabelas e estruturas de dados + dados a serem inseridos)
-        b) Criar um novo banco de dados para testar a restauracao 
-        (em caso de falha na restauração o grupo não pontuará neste quesito)
-        c) formato .SQL
-#### 8.3 INCLUSÃO DO SCRIPT PARA EXCLUSÃO DE TABELAS EXISTENTES, CRIAÇÃO DE TABELA NOVAS E INSERÇÃO DOS DADOS
-        a) Junção dos scripts anteriores em um único script 
-        (Drop table + Create de tabelas e estruturas de dados + dados a serem inseridos)
-        b) Criar um novo banco de dados para testar a restauracao 
-        (em caso de falha na restauração o grupo não pontuará neste quesito)
-        c) formato .SQL
-
-
-### 9	TABELAS E PRINCIPAIS CONSULTAS<br>
-    OBS: Incluir para cada tópico as instruções SQL + imagens (print da tela) mostrando os resultados.<br>
-#### 9.1	CONSULTAS DAS TABELAS COM TODOS OS DADOS INSERIDOS (Todas) <br>
-#### 9.2	CONSULTAS DAS TABELAS COM FILTROS WHERE (Mínimo 4)<br>
-#### 9.3	CONSULTAS QUE USAM OPERADORES LÓGICOS, ARITMÉTICOS E TABELAS OU CAMPOS RENOMEADOS (Mínimo 11)
-    a) Criar 5 consultas que envolvam os operadores lógicos AND, OR e Not
-    b) Criar no mínimo 3 consultas com operadores aritméticos 
-    c) Criar no mínimo 3 consultas com operação de renomear nomes de campos ou tabelas
-#### 9.4	CONSULTAS QUE USAM OPERADORES LIKE E DATAS (Mínimo 12) <br>
-    a) Criar outras 5 consultas que envolvam like ou ilike
-    b) Criar uma consulta para cada tipo de função data apresentada.
-
-
-    
-#### 9.5	ATUALIZAÇÃO E EXCLUSÃO DE DADOS (Mínimo 6)<br>
-
-
-#### 9.6	CONSULTAS COM JUNÇÃO E ORDENAÇÃO (Mínimo 6)<br>
-        a) Uma junção que envolva todas as tabelas possuindo no mínimo 3 registros no resultado
-        b) Outras junções que o grupo considere como sendo as de principal importância para o trabalho
-        
-
-## Marco de Entrega 02 em: (16/06/2018)<br>
-### ATUALIZAÇÃO DA DOCUMENTAÇÃO DOS SLIDES PARA APRESENTAÇAO SEMESTRAL (Mínimo 6 e Máximo 10)<br>
-<br>
-    Data de Entrega: (30/06/2018)
-<br>
-
-#### 9.7	CONSULTAS COM GROUP BY E FUNÇÕES DE AGRUPAMENTO (Mínimo 6)<br>
-
-#### 9.8	CONSULTAS COM LEFT E RIGHT JOIN (Mínimo 4)<br>
-#### 9.9	CONSULTAS COM SELF JOIN E VIEW (Mínimo 6)<br>
-        a) Uma junção que envolva Self Join
-        b) Outras junções com views que o grupo considere como sendo de relevante importância para o trabalho
-#### 9.10	SUBCONSULTAS (Mínimo 3)<br>
-
-#### 9.11	LISTA DE CODIGOS DAS FUNÇÕES E TRIGGERS<br>
-        Detalhamento sobre funcionalidade de cada código.
-        a) Objetivo
-        b) Código do objeto (função/trigger)
-        c) exemplo de dados para aplicação
-        d) resultados em forma de tabela/imagem
-<br>
-
-
-#### 9.12	GERACAO DE DADOS (MÍNIMO DE 100 MIL REGISTROS PARA PRINCIPAL RELAÇAO)<br>
-        a) principal tabela do sistema deve ter no mínimo 100 mil registros
-        b) tabelas diretamente relacionadas a tabela principal 10 mil registros
-        c) tabelas auxiliares de relacao multivalorada mínimo de 10 registros
-        d) registrar o tempo de inserção em cada uma das tabelas do banco de dados
-        e) especificar a quantidade de registros inseridos em cada tabela
-        Para melhor compreensão verifiquem o exemplo na base de testes:<br>
-        https://github.com/discipbd2/base-de-testes-locadora
-        
-
-#### 9.13	Backup do Banco de Dados<br>
-        Detalhamento do backup.
-        a) Tempo
-        b) Tamanho
-        c) Teste de restauração (backup)
-        d) Tempo para restauração
-        e) Teste de restauração (script sql)
-        f) Tempo para restauração (script sql)
-<br>
-
-Data de Entrega: (Data a ser definida)
-<br>
-
-#### 9.14	APLICAÇAO DE ÍNDICES E TESTES DE PERFORMANCE<br>
-    a) Lista de índices, tipos de índices com explicação de porque foram implementados nas consultas 
-    b) Performance esperada VS Resultados obtidos
-    c) Tabela de resultados comparando velocidades antes e depois da aplicação dos índices (constando velocidade esperada com planejamento, sem indice e com índice Vs velocidade de execucao real com índice e sem índice).
-    d) Escolher as consultas mais complexas para serem analisadas (consultas com menos de 2 joins não serão aceitas)
-    e) As imagens do Explain devem ser inclusas no trabalho, bem como explicações sobre os resultados obtidos.
-    f) Inclusão de tabela mostrando as 10 execuções, excluindo-se o maior e menor tempos para cada consulta e 
-    obtendo-se a media dos outros valores como resultado médio final.
-<br>
-    Data de Entrega: (Data a ser definida)
-<br>   
-
-### 10	ATUALIZAÇÃO DA DOCUMENTAÇÃO DOS SLIDES PARA APRESENTAÇAO FINAL (Mínimo 6 e Máximo 10)<br>
-<br>
-    Data de Entrega: (Data a ser definida)
-<br>
-
-### 11 Backup completo do banco de dados postgres 
-    a) deve ser realizado no formato "backup" 
-        (Em Dump Options #1 Habilitar opções Don't Save Owner e Privilege)
-    b) antes de postar o arquivo no git o mesmo deve ser testado/restaurado por outro grupo de alunos/dupla
-    c) informar aqui o grupo de alunos/dupla que realizou o teste.
-
-    
-### 12	TUTORIAL COMPLETO DE PASSOS PARA RESTAURACAO DO BANCO E EXECUCAO DE PROCEDIMENTOS ENVOLVIDOS NO TRABALHO PARA OBTENÇÃO DOS RESULTADOS<br>
-        a) Outros grupos deverão ser capazes de restaurar o banco 
-        b) executar todas as consultas presentes no trabalho
-        c) executar códigos que tenham sido construídos para o trabalho 
-        d) realizar qualquer procedimento executado pelo grupo que desenvolveu o trabalho
-
-### 13	DIFICULDADES ENCONTRADAS PELO GRUPO<br>  
-
-    
->## Marco de Entrega 04/Entrega Final em: (Data definida no cronograma)<br>
-
-       
-### 14  FORMATACAO NO GIT: https://help.github.com/articles/basic-writing-and-formatting-syntax/
-<comentario no git>
-    
-##### About Formatting
-    https://help.github.com/articles/about-writing-and-formatting-on-github/
-    
-##### Basic Formatting in Git
-    
-    https://help.github.com/articles/basic-writing-and-formatting-syntax/#referencing-issues-and-pull-requests
-   
-    
-##### Working with advanced formatting
-    https://help.github.com/articles/working-with-advanced-formatting/
-
-#### Mastering Markdown
-    https://guides.github.com/features/mastering-markdown/
-
-### OBSERVAÇÕES IMPORTANTES
-
-#### Todos os arquivos que fazem parte do projeto (Imagens, pdfs, arquivos fonte, etc..), devem estar presentes no GIT. Os arquivos do projeto vigente não devem ser armazenados em quaisquer outras plataformas.
-1. Caso existam arquivos com conteúdos sigilosos, comunicar o professor que definirá em conjunto com o grupo a melhor forma de armazenamento do arquivo.
-
-#### Todos os grupos deverão fazer Fork deste repositório e dar permissões administrativas ao usuário deste GIT, para acompanhamento do trabalho.
-
-#### Os usuários criados no GIT devem possuir o nome de identificação do aluno (não serão aceitos nomes como Eu123, meuprojeto, pro456, etc). Em caso de dúvida comunicar o professor.
-
-
-Link para BrModelo:<br>
-http://sis4.com/brModelo/brModelo/download.html
-<br>
-
-
-Link para curso de GIT<br>
-![https://www.youtube.com/curso_git](https://www.youtube.com/playlist?list=PLo7sFyCeiGUdIyEmHdfbuD2eR4XPDqnN2?raw=true "Title")
 
 
 
